@@ -169,4 +169,11 @@ let rec constraints_of gctx =
     context [ctx]. *)
 let type_of ctx e =
   let ty, eq = constraints_of ctx e in
+  let _ = print_endline (string_of_type ty) in
+  let soln = solve eq in
+  let _ = print_endline (
+    String.concat " | " (
+List.map (fun (ty1, ty2) -> string_of_int ty1 ^ "=>" ^ (string_of_type ty2)) soln
+  )
+  ) in
     tsubst (solve eq) ty
