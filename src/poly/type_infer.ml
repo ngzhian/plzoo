@@ -87,6 +87,11 @@ let rec constraints_of gctx =
 	 with Not_found ->
 	   (try
 	      (* we call [refresh] here to get let-polymorphism *)
+          (* since poly only has top-level lets, when we use a var
+             that cannot be found in the local context,
+             if it exists in a global context it must have been a top-level let,
+             i.e. Def. So we can refresh all type variables.
+           *)
 	      refresh (List.assoc x gctx), []
 	    with Not_found -> type_error ("Unknown variable " ^ x)))
 	  
